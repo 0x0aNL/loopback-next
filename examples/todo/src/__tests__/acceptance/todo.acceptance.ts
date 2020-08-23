@@ -25,6 +25,7 @@ import {
   HttpCachingProxy,
   isGeoCoderServiceAvailable,
 } from '../helpers';
+import {juggler} from '@loopback/repository';
 
 describe('TodoApplication', () => {
   let app: TodoListApplication;
@@ -239,16 +240,23 @@ describe('TodoApplication', () => {
       rest: givenHttpServerConfig(),
     });
 
+    const testdb: juggler.DataSource = new juggler.DataSource({
+      name: 'MySQL',
+      connector: 'memory',
+    });
+
+    app.dataSource(testdb);
     await app.boot();
+    await app.migrateSchema();
 
     /**
      * Override default config for DataSource for testing so we don't write
      * test data to file when using the memory connector.
      */
-    app.bind('datasources.config.db').to({
-      name: 'db',
-      connector: 'memory',
-    });
+    //app.bind('datasources.config.db').to({
+    //  name: 'db',
+    //  connector: 'memory',
+    //});
 
     // Override Geocoder datasource to use a caching proxy to speed up tests.
     app

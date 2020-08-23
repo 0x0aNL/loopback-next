@@ -45,6 +45,7 @@
     "@loopback/rest": "^6.1.0",
     "@loopback/rest-explorer": "^2.2.9",
     "@loopback/service-proxy": "^2.3.7",
+    "loopback-connector-mysql": "^5.4.4",
     "loopback-connector-rest": "^3.7.0",
     "morgan": "^1.10.0",
     "tslib": "^2.0.1"
