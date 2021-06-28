@@ -5,3 +5,4 @@
 
 export * from './todo.model';
 export * from './assignment.model';
+export * from './person.model';

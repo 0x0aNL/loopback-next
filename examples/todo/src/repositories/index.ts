@@ -5,3 +5,4 @@
 
 export * from './todo.repository';
 export * from './assignment.repository';
+export * from './person.repository';
