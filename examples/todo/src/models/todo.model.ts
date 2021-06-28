@@ -3,7 +3,9 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Person} from './person.model';
+import {Assignment} from './assignment.model';
 
 @model()
 export class Todo extends Entity {
@@ -40,6 +42,9 @@ export class Todo extends Entity {
     type: 'string',
   })
   remindAtGeo?: string; // latitude,longitude
+
+  @hasMany(() => Person, {through: {model: () => Assignment}})
+  people: Person[];
 
   @property({
     type: 'any',

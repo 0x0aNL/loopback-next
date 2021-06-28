@@ -9,6 +9,15 @@ export class Assignment extends Entity {
   })
   id?: number;
 
+  @property({
+    type: 'number',
+  })
+  todoId?: number;
+
+  @property({
+    type: 'number',
+  })
+  personId?: number;
 
   constructor(data?: Partial<Assignment>) {
     super(data);
