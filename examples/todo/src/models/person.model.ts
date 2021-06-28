@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Todo} from './todo.model';
+import {Assignment} from './assignment.model';
 
 @model()
 export class Person extends Entity {
@@ -9,6 +11,8 @@ export class Person extends Entity {
   })
   id?: number;
 
+  @hasMany(() => Todo, {through: {model: () => Assignment}})
+  todos: Todo[];
 
   constructor(data?: Partial<Person>) {
     super(data);
