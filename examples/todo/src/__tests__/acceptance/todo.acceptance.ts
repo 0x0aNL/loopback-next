@@ -55,6 +55,12 @@ describe('TodoApplication', () => {
     await todoRepo.deleteAll();
   });
 
+  it('creates & fetches related models', async () => {
+    await todoRepo.people(1).find({include: ['todos']});
+    await todoRepo.people(1).create({});
+    await todoRepo.people(1).find({include: ['todos']});
+  });
+
   it('creates a todo', async function (this: Mocha.Context) {
     // Set timeout to 30 seconds as `post /todos` triggers geocode look up
     // over the internet and it takes more than 2 seconds
