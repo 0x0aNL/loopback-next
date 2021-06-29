@@ -3,8 +3,12 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasManyThroughRepositoryFactory} from '@loopback/repository';
+import {inject, Getter, bind, BindingScope} from '@loopback/core';
+import {
+  DefaultCrudRepository,
+  repository,
+  HasManyThroughRepositoryFactory,
+} from '@loopback/repository';
 import {DbDataSource} from '../datasources';
 import {Todo, TodoRelations, Person, Assignment} from '../models';
 import {AssignmentRepository} from './assignment.repository';
@@ -15,15 +19,26 @@ export class TodoRepository extends DefaultCrudRepository<
   typeof Todo.prototype.id,
   TodoRelations
 > {
+  public readonly people: HasManyThroughRepositoryFactory<
+    Person,
+    typeof Person.prototype.id,
+    Assignment,
+    typeof Todo.prototype.id
+  >;
 
-  public readonly people: HasManyThroughRepositoryFactory<Person, typeof Person.prototype.id,
-          Assignment,
-          typeof Todo.prototype.id
-        >;
-
-  constructor(@inject('datasources.db') dataSource: DbDataSource, @repository.getter('AssignmentRepository') protected assignmentRepositoryGetter: Getter<AssignmentRepository>, @repository.getter('PersonRepository') protected personRepositoryGetter: Getter<PersonRepository>,) {
+  constructor(
+    @inject('datasources.db') dataSource: DbDataSource,
+    @repository.getter('AssignmentRepository')
+    protected assignmentRepositoryGetter: Getter<AssignmentRepository>,
+    @repository.getter('PersonRepository')
+    protected personRepositoryGetter: Getter<PersonRepository>,
+  ) {
     super(Todo, dataSource);
-    this.people = this.createHasManyThroughRepositoryFactoryFor('people', personRepositoryGetter, assignmentRepositoryGetter,);
+    this.people = this.createHasManyThroughRepositoryFactoryFor(
+      'people',
+      personRepositoryGetter,
+      assignmentRepositoryGetter,
+    );
     this.registerInclusionResolver('people', this.people.inclusionResolver);
   }
 }
