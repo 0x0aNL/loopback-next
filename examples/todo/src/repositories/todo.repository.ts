@@ -14,6 +14,7 @@ import {Todo, TodoRelations, Person, Assignment} from '../models';
 import {AssignmentRepository} from './assignment.repository';
 import {PersonRepository} from './person.repository';
 
+@bind({scope: BindingScope.SINGLETON})
 export class TodoRepository extends DefaultCrudRepository<
   Todo,
   typeof Todo.prototype.id,
